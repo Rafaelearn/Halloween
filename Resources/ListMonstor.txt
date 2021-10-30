@@ -1,0 +1,7 @@
+0 Vampire
+1 Witch
+2 Werewolf
+3 Ghost
+4 Daemon
+5 Zombie
+6 BlackWidow
