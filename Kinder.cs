@@ -13,5 +13,19 @@ namespace Halloween
             Blood = 0.5;
             Candies = 1;
         }
+        public override void Display()
+        {
+            Console.WriteLine($"Kinder {Name}");
+            if (Life > 2)
+            {
+                Console.WriteLine($"Immortal");
+            }
+            else
+            {
+                Console.WriteLine($"Life: {Life}");
+            }
+            Console.WriteLine($"Blood: {Blood}");
+            Console.WriteLine($"Candies: {Candies}");
+        }
     }
 }

@@ -14,7 +14,7 @@ namespace Halloween
     }
     class Monstor
     {
-        Random random = new Random();
+        static Random random = new Random();
         public static uint CountCycle { get; private set; } = 0;
         public uint Lifetime { get; set; }
         public bool Dead { get; private set; } = false;
@@ -29,9 +29,18 @@ namespace Halloween
             UnitHunger = SetMonstorUnitHunger(Type);
             Lifetime = SetMonstorCycle(Type);
         }
-        public void MeetStranger(ref Human human)
+        public void Display()
         {
-
+            Console.WriteLine($"Type: {Type}");
+            Console.WriteLine($"Name: {Name}");
+        }
+        public void MeetStranger(Human human)
+        {
+            if (Lifetime <= CountCycle)
+            {
+                Dead = true;
+                return;
+            }
             if (human is Witcher)
             {
                 Witcher witcher = (Witcher)human;
@@ -39,22 +48,23 @@ namespace Halloween
                 {
                     Dead = true;
                 }
-                return;
             }
             else
             {
                 if (random.Next(100) < 31)
                 {
-                    GetGiftFromMonstor(Type, ref human);
+                    GetGiftFromMonstor(Type, human);
+                    Console.WriteLine($"Монстор {Name} дает человечешке {human.Name} дар! ");
                 }
                 else
                 {
-                    EatHuman(Type, ref human);
+                    EatHuman(Type, human);
+                    Console.WriteLine($"Монстор {Name} нападает на человека {human.Name}!");
                 }
             }
             CountCycle++;
         }
-        private void EatHuman(TypeMonstor type, ref Human human)
+        private void EatHuman(TypeMonstor type, Human human)
         {
             switch (type)
             {
@@ -120,7 +130,7 @@ namespace Halloween
             }
             
         }
-        private void GetGiftFromMonstor(TypeMonstor type, ref Human human)
+        private void GetGiftFromMonstor(TypeMonstor type, Human human)
         {
             switch (type)
             {
@@ -174,17 +184,17 @@ namespace Halloween
                 case TypeMonstor.Vampire:
                     return 10;
                 case TypeMonstor.Witch:
-                    return 5;
+                    return 20;
                 case TypeMonstor.Werewolf:
-                    return 5;
+                    return 30;
                 case TypeMonstor.Ghost:
-                    return 5;
+                    return 30;
                 case TypeMonstor.Daemon:
-                    return 10;
+                    return 40;
                 case TypeMonstor.Zombie:
-                    return 5;
+                    return 45;
                 case TypeMonstor.BlackWidow:
-                    return 10;
+                    return 50;
                 default:
                     return 0;
             }

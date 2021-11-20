@@ -7,41 +7,6 @@ using System.Threading.Tasks;
 
 namespace Halloween
 {
-    
-    #region Другая реализация
-    /*
-     Как вариант построить дерево наследников
-     
-     */
-    //class Vampire:Monstor
-    //{
-    //    public TypeMonstor TypeMonstor { get; } = TypeMonstor.Vampire;
-    //}
-    //class Witch:Monstor
-    //{
-    //    public TypeMonstor TypeMonstor { get; } = TypeMonstor.Witch;
-    //}
-    //class Werewolf:Monstor
-    //{
-    //    public TypeMonstor TypeMonstor { get; } = TypeMonstor.Werewolf;
-    //}
-    //class Ghost : Monstor
-    //{
-    //    public TypeMonstor TypeMonstor { get; } = TypeMonstor.Ghost;
-    //}
-    //class Daemon : Monstor
-    //{
-    //    public TypeMonstor TypeMonstor { get; } = TypeMonstor.Daemon;
-    //}
-    //class Zombie : Monstor
-    //{
-    //    public TypeMonstor TypeMonstor { get; } = TypeMonstor.Zombie;
-    //}
-    //class BlackWidow : Monstor
-    //{
-    //    public TypeMonstor TypeMonstor { get; } = TypeMonstor.BlackWidow;
-    //}
-    #endregion
     class Program
     {
         static void Main(string[] args)
@@ -50,12 +15,56 @@ namespace Halloween
             WriteFromFileToListHuman(out List<Human> humen);
             List<Monstor> monstorsDead = new List<Monstor>();
             List<Monstor> monstorsEat = new List<Monstor>();
-            while (monstors.Count != 0)
+            Stack<Human> humenDead = new Stack<Human>();
+            int i = 0;
+            while (monstors.Count != 0 && humen.Count != 0)
             {
                 Monstor monstor = monstors.Dequeue();
-
+                bool flag = true;
+                while (flag)
+                {
+                    int indHum = i % humen.Count;
+                    monstor.MeetStranger(humen[indHum]);
+                    if (monstor.Dead)
+                    {
+                        monstorsDead.Add(monstor);
+                        flag = false;
+                    }
+                    if (!monstor.ExistingHunger)
+                    {
+                        monstorsEat.Add(monstor);
+                        flag = false;
+                    }
+                    if (humen[indHum].Dead)
+                    {
+                        humenDead.Push(humen[indHum]);
+                        humen.RemoveAt(indHum);
+                    }
+                    i++;
+                }
             }
-
+            Console.WriteLine("Монстры: ");
+            Console.WriteLine("===========================МЕРТВЫЕ=================================================");
+            foreach (var item in monstorsDead)
+            {
+                item.Display();
+            }
+            Console.WriteLine("===========================ВЫЖИВШИЕ================================================");
+            foreach (var item in monstorsEat)
+            {
+                item.Display();
+            }
+            Console.WriteLine("\n\n\nЛюди: ");
+            Console.WriteLine("===========================МЕРТВЫЕ=================================================");
+            foreach (var item in humenDead)
+            {
+                item.Display();
+            }
+            Console.WriteLine("===========================ВЫЖИВШИЕ================================================");
+            foreach (var item in humen)
+            {
+                item.Display();
+            }
             Console.ReadKey();
         }
         static void WriteFromFileToQueqeMonstor(out Queue<Monstor> monstors)
@@ -69,7 +78,7 @@ namespace Halloween
                     string[] date = stringfromfile.Split();
                     if (!int.TryParse(date[0], out int type))
                     {
-                        throw new FormatException("Непраильный формат");
+                        throw new FormatException("Неправильный формат");
                     }
                     monstors.Enqueue(new Monstor(date[1], (TypeMonstor)type));
                 }

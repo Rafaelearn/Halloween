@@ -8,13 +8,7 @@ namespace Halloween
         public double Blood { get; set; } = 0;
         public uint Candies { get; set; } = 0;
         public bool Dead { get; set; } = false;
-        private string name;
-
-        public string Name
-        {
-            get { return name; }
-            private set { Name = value.Trim(); }
-        }
+        public string Name { get; set; }
         public Human(string name)
         {
             Name = name;
@@ -23,5 +17,7 @@ namespace Halloween
         {
 
         }
+
+        abstract public void Display();
     }
 }

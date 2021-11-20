@@ -1,4 +1,5 @@
-﻿namespace Halloween
+﻿using System;
+namespace Halloween
 {
     class Witcher : Human
     {
@@ -42,6 +43,10 @@
             }
             Dead = true;
             return false;
+        }
+        public override void Display()
+        {
+            Console.WriteLine($"Witcher {Name}");
         }
     }
 }
