@@ -1,9 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Halloween
 {
@@ -11,8 +8,28 @@ namespace Halloween
     {
         static void Main(string[] args)
         {
-            WriteFromFileToQueqeMonstor(out Queue<Monstor> monstors);
-            WriteFromFileToListHuman(out List<Human> humen);
+            Queue<Monstor> monstors = new Queue<Monstor>();
+            monstors.Enqueue(new Monstor( "Vampire", TypeMonstor.Vampire));
+            monstors.Enqueue(new Monstor("Ghost", TypeMonstor.Ghost));
+            monstors.Enqueue(new Monstor("Werewolf", TypeMonstor.Werewolf));
+            monstors.Enqueue(new Monstor("Daemon", TypeMonstor.Daemon));
+            monstors.Enqueue(new Monstor("BlackWidow", TypeMonstor.BlackWidow));
+            monstors.Enqueue(new Monstor("Witch", TypeMonstor.Witch));
+            monstors.Enqueue(new Monstor("Zombie", TypeMonstor.Zombie));
+
+            List<Human> humen = new List<Human>();
+            humen.Add(new Kinder("Петя"));
+            humen.Add(new Kinder("Вася"));
+            humen.Add(new Kinder("Маша"));
+            humen.Add(new Adult("Игорь"));
+            humen.Add(new Witcher("Анастасия"));
+            humen.Add(new Adult("Диана"));
+            humen.Add(new Witcher("Честер"));
+            humen.Add(new Adult("Морис"));
+            humen.Add(new Adult("Женя"));
+            humen.Add(new Witcher("Розалин"));
+            humen.Add(new Adult("Дюшес"));
+            humen.Add(new Witcher("Люмень"));
             List<Monstor> monstorsDead = new List<Monstor>();
             List<Monstor> monstorsEat = new List<Monstor>();
             Stack<Human> humenDead = new Stack<Human>();
@@ -66,47 +83,6 @@ namespace Halloween
                 item.Display();
             }
             Console.ReadKey();
-        }
-        static void WriteFromFileToQueqeMonstor(out Queue<Monstor> monstors)
-        {
-            monstors = new Queue<Monstor>();
-            using (StreamReader fileTextRead = new StreamReader(@"..\..\Resources\ListMonstor.txt"))
-            {
-                string stringfromfile;
-                while ((stringfromfile = fileTextRead.ReadLine()) != null)
-                {
-                    string[] date = stringfromfile.Split();
-                    if (!int.TryParse(date[0], out int type))
-                    {
-                        throw new FormatException("Неправильный формат");
-                    }
-                    monstors.Enqueue(new Monstor(date[1], (TypeMonstor)type));
-                }
-            }
-        }
-        static void WriteFromFileToListHuman(out List<Human> humen)
-        {
-            humen = new List<Human>();
-            using (StreamReader fileTextRead = new StreamReader(@"..\..\Resources\ListHuman.txt"))
-            {
-                string stringfromfile;
-                while ((stringfromfile = fileTextRead.ReadLine()) != null)
-                {
-                    string[] date = stringfromfile.Split();
-                    if (date[0].Equals("W"))
-                    {
-                        humen.Add(new Witcher(date[1]));
-                    }
-                    if (date[0].Equals("A"))
-                    {
-                        humen.Add(new Adult(date[1]));
-                    }
-                    if (date[0].Equals("K"))
-                    {
-                        humen.Add(new Kinder(date[1]));
-                    }
-                }
-            }
         }
     }
 }
